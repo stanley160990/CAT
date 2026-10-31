@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # -------------------------------------------------------------
+  # 1. Database PostgreSQL
+  # -------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: cat_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-cat_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-cat_password_123}
+      POSTGRES_DB: ${DB_NAME:-cat_db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cat_user} -d ${DB_NAME:-cat_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # 2. Aplikasi Web CAT (Express + React Vite Frontend)
+  # -------------------------------------------------------------
+  cat-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cat_web
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      # Konfigurasi koneksi ke container postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-cat_user}
+      DB_PASSWORD: ${DB_PASSWORD:-cat_password_123}
+      DB_NAME: ${DB_NAME:-cat_db}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    driver: local

@@ -1,0 +1,6 @@
+{
+  "name": "CAT Online - Computer Assisted Test",
+  "description": "Sistem Computer Assisted Test (CAT) berbasis web dengan database PostgreSQL, manajemen ujian, ruang ujian, bank soal, timer otomatis, dan monitoring operator realtime.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

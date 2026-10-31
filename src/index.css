@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-pink: #FF006E;
+  --color-brand-pink-hover: #e00062;
+  --color-brand-pink-light: #fff0f6;
+  --color-brand-mint: #d1e7dd;
+  --color-brand-mint-dark: #0f5132;
+  --color-brand-mint-border: #badbcc;
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom Palette Utility Classes */
+.btn-cat-primary {
+  background-color: #FF006E;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+.btn-cat-primary:hover {
+  background-color: #e00062;
+}
+
+.badge-cat-mint {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.badge-cat-pink {
+  background-color: #fff0f6;
+  color: #FF006E;
+  border: 1px solid #ffccd8;
+}
